@@ -1979,8 +1979,8 @@ subroutine pr_FillCellFromRealData( this, cellNumber, cellDataBuffer, forceCellR
     type(ModpathCellDataType), intent(inout)  :: cellDataBuffer
     !----------------------------------------------------------
 
-    ! Reset the buffer (it is called in FillCellBuffer below)
-    ! call cellDataBuffer%Reset()
+    ! Reset the buffer (this reset seems to be necessary)
+    call cellDataBuffer%Reset()
 
     ! If no valid cellNumber, leave
     if ( cellNumber .le. 0 ) then

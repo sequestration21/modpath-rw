@@ -2619,7 +2619,7 @@ contains
     this%Dxzz(2)  = this%Dxzx(2)
     this%Dyzz(2)  = this%Dyzy(2)
     ! 010
-    aTQPlusPDMeff = alphaT*this%qCorner100(4) + this%porosity010*dMEff 
+    aTQPlusPDMeff = alphaT*this%qCorner010(4) + this%porosity010*dMEff 
     this%Dxxx(3)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod010(1)
     this%Dyyy(3)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod010(4)
     this%Dzzz(3)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod010(6)
@@ -2630,7 +2630,7 @@ contains
     this%Dxzz(3)  = this%Dxzx(3)
     this%Dyzz(3)  = this%Dyzy(3)
     ! 110
-    aTQPlusPDMeff = alphaT*this%qCorner100(4) + this%porosity110*dMEff 
+    aTQPlusPDMeff = alphaT*this%qCorner110(4) + this%porosity110*dMEff 
     this%Dxxx(4)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod110(1)
     this%Dyyy(4)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod110(4)
     this%Dzzz(4)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod110(6)
@@ -2641,7 +2641,7 @@ contains
     this%Dxzz(4)  = this%Dxzx(4)
     this%Dyzz(4)  = this%Dyzy(4)
     ! 001
-    aTQPlusPDMeff = alphaT*this%qCorner100(4) + this%porosity001*dMEff 
+    aTQPlusPDMeff = alphaT*this%qCorner001(4) + this%porosity001*dMEff 
     this%Dxxx(5)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod001(1)
     this%Dyyy(5)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod001(4)
     this%Dzzz(5)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod001(6)
@@ -2652,7 +2652,7 @@ contains
     this%Dxzz(5)  = this%Dxzx(5)
     this%Dyzz(5)  = this%Dyzy(5)
     ! 101
-    aTQPlusPDMeff = alphaT*this%qCorner100(4) + this%porosity101*dMEff 
+    aTQPlusPDMeff = alphaT*this%qCorner101(4) + this%porosity101*dMEff 
     this%Dxxx(6)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod101(1)
     this%Dyyy(6)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod101(4)
     this%Dzzz(6)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod101(6)
@@ -2663,7 +2663,7 @@ contains
     this%Dxzz(6)  = this%Dxzx(6)
     this%Dyzz(6)  = this%Dyzy(6)
     ! 011
-    aTQPlusPDMeff = alphaT*this%qCorner100(4) + this%porosity011*dMEff 
+    aTQPlusPDMeff = alphaT*this%qCorner011(4) + this%porosity011*dMEff 
     this%Dxxx(7)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod011(1)
     this%Dyyy(7)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod011(4)
     this%Dzzz(7)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod011(6)
@@ -2674,7 +2674,7 @@ contains
     this%Dxzz(7)  = this%Dxzx(7)
     this%Dyzz(7)  = this%Dyzy(7)
     ! 111
-    aTQPlusPDMeff = alphaT*this%qCorner100(4) + this%porosity111*dMEff 
+    aTQPlusPDMeff = alphaT*this%qCorner111(4) + this%porosity111*dMEff 
     this%Dxxx(8)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod111(1)
     this%Dyyy(8)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod111(4)
     this%Dzzz(8)  = ( aTQPlusPDMEff ) + ( aLMinusaT )*qprod111(6)

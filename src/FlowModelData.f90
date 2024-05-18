@@ -1883,12 +1883,15 @@ contains
           if ( isMF6Budget .and. ( .not. isValid ) ) then 
             textLabel = header%TXT2ID2
             call TrimAll(textLabel, firstNonBlank, lastNonBlank, trimmedLength)
-            if (&
-              textLabel(firstNonBlank:lastNonBlank) .eq. & 
-              sourcePkgName(firstNonBlankIn:lastNonBlankIn) ) then
-              ! Found it
-              isValid = .true.
-              return
+            ! If the TXT2ID2 label not empty, verify
+            if ( trimmedLength .gt. 0 ) then 
+              if (&
+                textLabel(firstNonBlank:lastNonBlank) .eq. & 
+                sourcePkgName(firstNonBlankIn:lastNonBlankIn) ) then
+                ! Found it
+                isValid = .true.
+                return
+              end if
             end if
           end if 
 
@@ -2107,11 +2110,14 @@ contains
             if ( isMF6Budget .and. ( .not. foundTheSource ) ) then 
               textLabel = header%TXT2ID2
               call TrimAll(textLabel, firstNonBlank, lastNonBlank, trimmedLength)
-              if (&
-                textLabel(firstNonBlank:lastNonBlank) .eq. & 
-                sourcePkgName(firstNonBlankIn:lastNonBlankIn) ) then
-                ! Found it
-                foundTheSource = .true.
+              ! If the TXT2ID2 label not empty, verify
+              if ( trimmedLength .gt. 0 ) then 
+                if (&
+                  textLabel(firstNonBlank:lastNonBlank) .eq. & 
+                  sourcePkgName(firstNonBlankIn:lastNonBlankIn) ) then
+                  ! Found it
+                  foundTheSource = .true.
+                end if
               end if
             end if 
 
@@ -2478,11 +2484,14 @@ contains
           if ( isMF6Budget .and. ( .not. foundTheSource ) ) then 
             textLabel = header%TXT2ID2
             call TrimAll(textLabel, firstNonBlank, lastNonBlank, trimmedLength)
-            if (&
-              textLabel(firstNonBlank:lastNonBlank) .eq. & 
-              sourcePkgName(firstNonBlankIn:lastNonBlankIn) ) then
-              ! Found it
-              foundTheSource = .true.
+            ! If the TXT2ID2 label not empty, verify
+            if ( trimmedLength .gt. 0 ) then 
+              if (&
+                textLabel(firstNonBlank:lastNonBlank) .eq. & 
+                sourcePkgName(firstNonBlankIn:lastNonBlankIn) ) then
+                ! Found it
+                foundTheSource = .true.
+              end if
             end if
           end if 
 

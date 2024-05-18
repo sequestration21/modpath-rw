@@ -4318,26 +4318,18 @@ contains
           if ( allocated( mfTimes ) ) deallocate( mfTimes )
           allocate( mfTimes(nMFTimes) )
 
-          ! Fill mfTimes
-          !do ktime=1,nMFTimeIntervals
-          !  if ( ktime .eq. 1 ) mfTimes(1) = initialTime
-          !  if ( ktime .lt. nMFTimeIntervals ) mftimes(ktime+1)  = this%tdisData%TotalTimes(ktime+kinitial-1)
-          !  if ( ktime .eq. nMFTimeIntervals ) mftimes(nMFTimes) = finalTime 
-          !end do
           ! Fill times and time intervals
           if ( this%TrackingOptions%BackwardTracking ) then 
             do ktime=1,nMFTimeIntervals
               if ( ktime .eq. 1 ) mftimes(1) = initialTime
               if ( ktime .lt. nMFTimeIntervals ) mftimes(ktime+1) = this%tdisData%TotalTimes(kinitial-ktime)
               if ( ktime .eq. nMFTimeIntervals ) mftimes(nMFTimes) = finalTime 
-              !timeIntervals(ktime) = abs(times(ktime+1) - times(ktime))
             end do
           else
             do ktime=1,nMFTimeIntervals
               if ( ktime .eq. 1 ) mftimes(1) = initialTime
               if ( ktime .lt. nMFTimeIntervals ) mftimes(ktime+1) = this%tdisData%TotalTimes(ktime+kinitial-1)
               if ( ktime .eq. nMFTimeIntervals ) mftimes(nMFTimes) = finalTime 
-              !timeIntervals(ktime) = times(ktime+1) - times(ktime)
             end do
           end if 
 
@@ -4403,8 +4395,12 @@ contains
                if ( tCounter.gt.itCounter ) minT = mfTimes(mftCounter) 
                if ( mftCounter.gt.nMFTimes ) minT = inputTimes(tCounter)
              end if 
-             if ( minT.eq.inputTimes(tCounter)) tCounter = tCounter + 1
-             if ( minT.eq.mfTimes(mftCounter) ) mftCounter = mftCounter + 1
+             if ( tCounter.le.itCounter ) then 
+               if ( minT.eq.inputTimes(tCounter)) tCounter = tCounter + 1
+             end if
+             if ( mftCounter.le.nMFTimes ) then 
+               if ( minT.eq.mfTimes(mftCounter) ) mftCounter = mftCounter + 1
+             end if
              mergedTimes(nt) = minT
              if( (tCounter.gt.itCounter).and.(mftCounter.gt.nMFTimes) ) exit
             end do 
@@ -4472,12 +4468,16 @@ contains
              else
                if ( tCounter.gt.itCounter ) minT = mfTimes(mftCounter) 
                if ( mftCounter.gt.nMFTimes ) minT = inputTimes(tCounter)
+             end if
+             if ( tCounter.le.itCounter ) then 
+               if ( minT.eq.inputTimes(tCounter)) tCounter = tCounter + 1
              end if 
-             if ( minT.eq.inputTimes(tCounter)) tCounter = tCounter + 1
-             if ( minT.eq.mfTimes(mftCounter) ) mftCounter = mftCounter + 1
+             if ( mftCounter.le.nMFTimes ) then 
+               if ( minT.eq.mfTimes(mftCounter) ) mftCounter = mftCounter + 1
+             end if 
              mergedTimes(nt) = minT
              if( (tCounter.gt.itCounter).and.(mftCounter.gt.nMFTimes) ) exit
-            end do 
+            end do
             ! Of the merged vector, how many are within the valid range 
             ! The range (1:nt) is to avoid the potential zeros at the end of the array
             tCounter =  count((mergedTimes(1:nt).ge.initialTime).and.(mergedTimes(1:nt).le.finalTime))

@@ -2619,9 +2619,17 @@ program MPathRW
               select case(simulationData%TrackingDirection)
               case(1)
                 ! Forward tracking
-                call interp1d%initialize( &
-                  (/0d0,tdisData%TotalTimes(kfirst:klast) - simulationData%ReferenceTime/), &
-                            (/obs%cummSinkFlowSeries(1),obs%cummSinkFlowSeries/), int1dstat )
+                if ( (tdisData%TotalTimes(kfirst) - simulationData%ReferenceTime).gt.0d0 ) then 
+                  call interp1d%initialize( &
+                    (/0d0,tdisData%TotalTimes(kfirst:klast) - simulationData%ReferenceTime/), &
+                              (/obs%cummSinkFlowSeries(1),obs%cummSinkFlowSeries/), int1dstat )
+                else
+                  ! In case reference time coincides exactly with the first time is not necessary 
+                  ! to include the starting zero.
+                  call interp1d%initialize( &
+                    tdisData%TotalTimes(kfirst:klast) - simulationData%ReferenceTime, &
+                                                    obs%cummSinkFlowSeries, int1dstat )
+                end if 
               case(2)
                 ! Backward tracking
                 if ( klast.ne.1 ) then 
@@ -2695,9 +2703,17 @@ program MPathRW
             select case(simulationData%TrackingDirection)
             case(1)
               ! Forward tracking
-              call interp1d%initialize( &
-                (/0d0,tdisData%TotalTimes(kfirst:klast) - simulationData%ReferenceTime/), &
-                          (/obs%cummSinkFlowSeries(1),obs%cummSinkFlowSeries/), int1dstat )
+              if ( (tdisData%TotalTimes(kfirst) - simulationData%ReferenceTime).gt.0d0 ) then 
+                call interp1d%initialize( &
+                  (/0d0,tdisData%TotalTimes(kfirst:klast) - simulationData%ReferenceTime/), &
+                            (/obs%cummSinkFlowSeries(1),obs%cummSinkFlowSeries/), int1dstat )
+              else
+                ! In case reference time coincides exactly with the first time is not necessary 
+                ! to include the starting zero.
+                call interp1d%initialize( &
+                  tdisData%TotalTimes(kfirst:klast) - simulationData%ReferenceTime, &
+                                                  obs%cummSinkFlowSeries, int1dstat )
+              end if 
             case(2)
               ! Backward tracking
               if ( klast.ne.1 ) then 

@@ -1038,12 +1038,20 @@ contains
 
           ! Health control
           if ( intLoopCounter .gt. maxInterfaceLoopCounter ) then
-            ! Restart coordinates 
+            ! Restart to initial cell condition
+            x  = initialLocation%LocalX
+            y  = initialLocation%LocalY
+            z  = initialLocation%LocalZ
             nx = initialLocation%LocalX
             ny = initialLocation%LocalY
             nz = initialLocation%LocalZ
             t  = tinit
             dt = dtcell
+            exitFace = 0
+            dtLoopCounter = 0
+            intLoopCounter = 0
+            continueTimeLoop = .true.
+            reachedMaximumTime = .false.
             posRestartCounter = posRestartCounter + 1
             if ( posRestartCounter .gt. maxRestartPositionCounter ) then 
               ! Something wrong, leave
@@ -1098,13 +1106,20 @@ contains
               if ( exitFace .eq. 5 ) nz=0d0
             ! No exit
             case(0)
-              ! Fallback
-              ! If exitFace .eq. 0, restart coordinates 
+              ! If exitFace .eq. 0, restart to initial cell condition
+              x  = initialLocation%LocalX
+              y  = initialLocation%LocalY
+              z  = initialLocation%LocalZ
               nx = initialLocation%LocalX
               ny = initialLocation%LocalY
               nz = initialLocation%LocalZ
               t  = tinit
               dt = dtcell
+              exitFace = 0
+              dtLoopCounter = 0
+              intLoopCounter = 0
+              continueTimeLoop = .true.
+              reachedMaximumTime = .false.
               posRestartCounter = posRestartCounter + 1
               if ( posRestartCounter .gt. maxRestartPositionCounter ) then 
                 ! Something wrong, leave
@@ -1156,7 +1171,7 @@ contains
             reboundCounter = 0
             do while( ( exitFace .gt. 0 ) )
 
-              ! If not connected to rebound boundary cell, leave
+              ! If not connected to rebound boundary cell, exit rebound loop 
               if ( this%SubCellData%MassBoundary(exitFace) .ne. 1 ) then 
                 exit
               end if
@@ -1164,7 +1179,7 @@ contains
               ! reboundCounter and a catch for unexpected cases
               reboundCounter = reboundCounter + 1
               if ( reboundCounter .gt. maxRestartPositionCounter ) then
-                ! If particle has been rebounding for a long time, stop
+                ! If the rebound loop occurs several times, stop
                 trackingResult%ExitFace = 0
                 trackingResult%Status   = trackingResult%Status_Undefined()
                 trackingResult%FinalLocation%CellNumber = cellNumber
@@ -1172,6 +1187,7 @@ contains
                 trackingResult%FinalLocation%LocalY = y
                 trackingResult%FinalLocation%LocalZ = z
                 trackingResult%FinalLocation%TrackingTime = t
+                ! leave
                 return
               end if 
 
@@ -1183,16 +1199,32 @@ contains
               ! If dt .eq. 0d0 then the particle is exactly at the interface,
               ! and is a rebound interface. In the meantime, restart.
               if ( dt .eq. 0d0 ) then
-                ! Restart coordinates 
+                ! Restart coordinates
+                x  = initialLocation%LocalX
+                y  = initialLocation%LocalY
+                z  = initialLocation%LocalZ
                 nx = initialLocation%LocalX
                 ny = initialLocation%LocalY
                 nz = initialLocation%LocalZ
-                t  = t - dt
+                t  = tinit
                 dt = dtcell
                 exitFace = 0
+                dtLoopCounter = 0
+                intLoopCounter = 0
+                continueTimeLoop = .true.
+                reachedMaximumTime = .false.
                 posRestartCounter = posRestartCounter + 1
-                ! With nx, ny, nz adopting the starting values, 
-                ! interface loop is also broken
+                if ( posRestartCounter .gt. maxRestartPositionCounter ) then 
+                  ! Something wrong, leave
+                  trackingResult%ExitFace = 0
+                  trackingResult%Status = trackingResult%Status_Undefined()
+                  trackingResult%FinalLocation%CellNumber = cellNumber
+                  trackingResult%FinalLocation%LocalX = x
+                  trackingResult%FinalLocation%LocalY = y
+                  trackingResult%FinalLocation%LocalZ = z
+                  trackingResult%FinalLocation%TrackingTime = t
+                  return
+                end if
                 ! Exit rebound loop 
                 exit
               end if

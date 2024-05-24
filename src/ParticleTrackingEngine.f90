@@ -1268,8 +1268,8 @@ contains
     
     ! Reset all buffers (necessary?)
     do m = 1, 18 
-      if(neighborCellData(1,m)%initialized) call neighborCellData(1,m)%Reset() 
-      if(neighborCellData(2,m)%initialized) call neighborCellData(2,m)%Reset() 
+      call neighborCellData(1,m)%Reset() 
+      call neighborCellData(2,m)%Reset() 
     end do 
 
     ! Verify if current TrackCell is refined 
@@ -1912,7 +1912,7 @@ subroutine pr_FillCellBufferFromSubCell( this, parentCellBuffer, subRow, subColu
     !-----------------------------------------------------------------------------
 
     ! Reset the output buffer
-    if(cellBuffer%initialized) call cellBuffer%Reset()
+    call cellBuffer%Reset()
 
     ! Fill faceFlows
     call parentCellBuffer%FillSubCellFaceFlowsBuffer( subRow, subColumn, faceFlows )
